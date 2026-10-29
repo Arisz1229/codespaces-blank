@@ -1,0 +1,27 @@
+name: Run AQW Bot
+
+on:
+  workflow_dispatch: # Allows you to click a button on GitHub to start it manually
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/tools/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run Bot Script
+      env:
+        # If your script pulls credentials from your environment configs
+        USER_NAME: ${{ secrets.AQW_USERNAME }} 
+        PASSWORD: ${{ secrets.AQW_PASSWORD }}
+      run: python start.py
